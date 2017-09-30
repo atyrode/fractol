@@ -6,7 +6,7 @@
 #    By: atyrode <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/30 18:19:00 by atyrode           #+#    #+#              #
-#    Updated: 2017/09/30 18:45:04 by atyrode          ###   ########.fr        #
+#    Updated: 2017/09/30 19:36:30 by atyrode          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,12 @@ CFLAGS = -Wall -Wextra -Werror
 
 HEAD = ./includes/fractol.h
 
-SRC =	fractol.c /
-		color.c /
-		image.c /
-		julia.c /
-		mandelbrot.c
+SRC =	fractol.c \
+		color.c \
+		image.c \
+		julia.c \
+		mandelbrot.c \
+		window.c
 
 OBJ = $(patsubst %.c,%.o,$(addprefix $(PATH_SRC), $(SRC)))
 
