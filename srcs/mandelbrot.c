@@ -6,33 +6,72 @@
 /*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:43:36 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/01 00:37:20 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/01 23:02:56 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
 
+double interpolate(double start, double end, double interpolation)
+{
+	return start + ((end - start) * interpolation);
+}
+
+void applyZoom(t_mlx *mlx, double mouseX, double mouseY, double zoomFactor)
+{
+	double interpolation;
+	
+	interpolation = 1.0 / zoomFactor;
+	X1 = interpolate(mouseY, X1, interpolation);
+	Y1 = interpolate(mouseX, Y1, interpolation);
+	X2 = interpolate(mouseY, X2, interpolation);
+	Y2 = interpolate(mouseX, Y2, interpolation);
+}
+
+void		re_calc_mandel(t_mlx *mlx, int x, int y)
+{
+	double mouseX;
+	double mouseY;
+
+	mouseX = (double)x / (W_WIDTH / (X2 - X1)) + X1;
+	mouseY = (double)y / (W_HEIGHT / (Y2 - Y1)) + Y1;
+	applyZoom(mlx, mouseX, mouseY, ZOOM);
+	test_func(1, 0, mlx);
+	calc_mandel(mlx);
+
+}
+
 void		calc_mandel(t_mlx *mlx)
 {
 	int		i;
-	double		tmp;
+
+	printf ("test2\n");
 
 	COORD_X = 0;
-	while (COORD_X < IMAGE_X)
+	while (COORD_X < W_WIDTH)
 	{
 		COORD_Y = 0;
-		while (COORD_Y < IMAGE_Y)
+		while (COORD_Y < W_HEIGHT)
 		{
-			C_R = COORD_X / ZOOM + X1;
-			C_I = COORD_Y / ZOOM + Y1;
-			Z_R = 0;
-			Z_I = 0;
-			i = 0;
-			while ((Z_R * Z_R + Z_I * Z_I) < 4 && i < I_MAX)
+			if (FRAC == 0)
 			{
-				tmp = Z_R;
-				Z_R = Z_R * Z_R - Z_I * Z_I + C_R;
-				Z_I = 2 * Z_I * tmp + C_I;
+				C_X = (double)COORD_X / (W_WIDTH / (X2 - X1)) + X1;
+				C_Y = (double)COORD_Y / (W_HEIGHT / (Y2 - Y1)) + Y1;
+				Z_X = 0;
+				Z_Y = 0;
+			}
+			else if (FRAC == 1)
+			{
+				Z_X = (double)COORD_X / (W_WIDTH / (X2 - X1)) + X1;
+				Z_Y = (double)COORD_Y / (W_HEIGHT / (Y2 - Y1)) + Y1;
+			}
+			i = 0;
+			while ((Z_X * Z_X + Z_Y * Z_Y) < 4 && i < I_MAX)
+			{
+				SQZ_X = Z_X * Z_X;
+				SQZ_Y = Z_Y * Z_Y;
+				Z_Y = 2 * Z_Y * Z_X + C_Y;
+				Z_X = SQZ_X - SQZ_Y + C_X;
 				i++;
 			}
 			if (i == I_MAX)
@@ -58,13 +97,8 @@ void		print_mandelbrot(t_mlx *mlx)
 	X2 = 0.6;
 	Y1 = -1.2;
 	Y2 = 1.2;
-	I_MAX = 50;
-	ZOOM = 300;
+	I_MAX = 100;
 
-	IMAGE_X = (X2 - X1) * ZOOM;
-	IMAGE_Y = (Y2 - Y1) * ZOOM;
 	calc_mandel(mlx);
 	return ;
 }
-
-

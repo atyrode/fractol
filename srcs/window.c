@@ -6,7 +6,7 @@
 /*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 19:23:07 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/01 00:22:48 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/01 23:01:15 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,5 @@ t_mlx		*initialize(void)
 		|| (mlx->mandelbrot = ft_memalloc(sizeof(t_mandel))) == NULL)
 		return (mlx_free(mlx));
 	ZOOM = 0;
-	SHIFT_X = 0;
-	SHIFT_Y = 0;
 	return (mlx);
 }
