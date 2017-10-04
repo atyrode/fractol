@@ -6,7 +6,7 @@
 /*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:42:07 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/01 22:39:04 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/03 20:17:15 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void		test_func(int id, int ext, t_mlx *mlx)
 {
 	if (id == 1)
 		printf ("X1 = %f | X2 = %f | Y1 = %f | Y2 = %f | ZOOM = %f | I_MAX = %d\n", X1, X2, Y1, Y2, ZOOM, I_MAX);
+	if (id == 2)
+		printf ("COORD_X = %d | COORD_Y = %d | COLOR = %d\n", COORD_X, COORD_Y, COLOR);
 	if (ext == 1)
 		exit(0);
 	return ;

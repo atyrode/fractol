@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   size.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: sguillia <sguillia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/09/22 20:47:38 by atyrode           #+#    #+#             */
-/*   Updated: 2017/09/22 21:11:04 by atyrode          ###   ########.fr       */
+/*   Created: 2016/02/17 19:50:29 by sguillia          #+#    #+#             */
+/*   Updated: 2017/10/03 22:19:01 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-/*# include <fcntl.h>
-# include <stdlib.h>*/
-# include "libft.h"
+#ifndef SIZE_H
+# define SIZE_H
 
-# define BUFF_SIZE 5
-
-int	get_next_line(const int fd, char **line);
+#define W_WIDTH 896
+#define W_HEIGHT 800
 
 #endif

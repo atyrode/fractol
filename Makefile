@@ -6,44 +6,107 @@
 #    By: atyrode <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/30 18:19:00 by atyrode           #+#    #+#              #
-#    Updated: 2017/10/01 21:36:51 by atyrode          ###   ########.fr        #
+#    Updated: 2017/10/03 18:49:18 by atyrode          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 
-PATH_SRC = ./srcs/
 PATH_OBJ = ./
 PATH_INC = ./includes/
 
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Wextra -Werror
 
-HEAD = ./includes/fractol.h
+SRC =	srcs/fractol.c \
+		srcs/color.c \
+		srcs/image.c \
+		srcs/mandelbrot.c \
+		srcs/window.c \
+		srcs/draw_gpu_fractal.c \
+		srcs/load_gpu_sources.c \
+		srcs/opencl_init.c \
+		srcs/colors.c
 
-SRC =	fractol.c \
-		color.c \
-		image.c \
-		mandelbrot.c \
-		window.c
+O_FILES = $(SRC:.c=.o)
+MLX_LIB = -L/usr/local/lib -lmlx -L. ./minilibx_macos/libmlx.a -framework OpenGL -framework Appkit
+MLX_I   = -I/usr/local/include
 
-OBJ = $(patsubst %.c,%.o,$(addprefix $(PATH_SRC), $(SRC)))
+LIBFT_L = -Llibft -lft
+LIBFT_I = -Ilibft -Iincludes -Iminilibx_macos/mlx.h
 
-all: $(NAME)
+# Enables precision double output
 
-$(NAME): $(OBJ) $(HEAD)
-	make -C libft/
-	$(CC) $(CFLAGS) -I $(PATH_INC) -c $(addprefix $(PATH_SRC), $(SRC))
-	$(CC) -o $(NAME) $(OBJ) -lm -L libft/ -lft minilibx_macos/libmlx.a -framework OpenGL -framework AppKit
+PRECISION = -DPRECISION
 
-.PHONY: clean fclean
+SPECIAL =
 
-clean:
-	make -C libft/ clean
-	/bin/rm -f $(OBJ)
+all: make_libft $(NAME)
 
-fclean: clean
-	make -C libft/ fclean
-	/bin/rm -f $(NAME)
+#makeautoheader:
+#	./genautoheader output.h $(SRC)
+
+make_libft:
+	make -C libft
+
+#$(NAME): makeautoheader $(O_FILES)
+$(NAME): $(O_FILES)
+	$(CC) $(CC_FLAGS) $(O_FILES) -o $(NAME) $(LIBFT_L) $(MLX_LIB) $(GPU_L)
+
+%.o:%.c fractol.h size.h
+	$(CC) $(CC_FLAGS) -c -o $@ $< $(LIBFT_I) $(MLX_I) \
+	$(GPU_MACRO) $(PRECISION) $(SPECIAL)
+
+clean: cleanp clean_libft
+
+cleanp:
+	rm -rf $(O_FILES)
+
+clean_libft:
+	make -C libft clean
+
+fclean: fclean_libft fcleanp
+
+fcleanp: cleanp
+	rm -rf $(NAME)
+
+fclean_libft:
+	make -C libft fclean
 
 re: fclean all
+
+rep: fcleanp all
+
+wre: wmode re
+
+wrep: wmode rep
+
+wmode:
+	$(eval CC_FLAGS = -Wall -Wextra -Werror)
+
+re_libft:
+	make -C libft re
+
+GPU: set_gpu_flags all
+
+gpu: GPU
+
+CPU: all
+
+cpu: CPU
+
+set_gpu_flags:
+	@echo "\x1b[1;33mGPU flags are being set."\
+	" Make clean if linkage error happen\x1b[0m"
+	$(eval GPU_L = -framework OpenCL)
+	$(eval GPU_MACRO = -DGPU)
+
+repgpu: fcleanp GPU
+
+repcpu: fcleanp CPU
+
+noprecision:
+	$(eval PRECISION =)
+
+special:
+	$(eval SPECIAL = -DUNDEFINED)

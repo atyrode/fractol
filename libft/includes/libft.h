@@ -6,15 +6,16 @@
 /*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/22 20:10:38 by atyrode           #+#    #+#             */
-/*   Updated: 2017/09/22 20:11:21 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/02 21:58:03 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _LIBFT_H
 # define _LIBFT_H
-# include <unistd.h>
-# include <string.h>
+
 # include <stdlib.h>
+# include <unistd.h>
+# include <stdarg.h>
 # include "get_next_line.h"
 
 typedef struct		s_list
@@ -88,5 +89,7 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 char				**ft_split(char *str, char *charset);
 int					ft_getnbr(char *str);
 int					get_next_line(const int fd, char **line);
+char				*ft_strjoin3(char *s1, char *s2, char *s3);
+void				*ft_check_malloc(void *assertion);
 
 #endif
