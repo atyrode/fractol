@@ -19,6 +19,7 @@ static int	try_opencl_init_next(t_cl *cl)
 	size_t		len;
 
 	cl->err = clBuildProgram(cl->program, 0, NULL, "-I./srcs/", NULL, NULL);
+	//printf ("cl->err = %d", cl->err);
 	if (cl->err != CL_SUCCESS)
 	{
 		cl->err = clGetProgramBuildInfo(cl->program, cl->device_id,

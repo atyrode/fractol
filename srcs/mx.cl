@@ -15,7 +15,7 @@ static double   clamp_to_pct4(double input, double min, double max)
 	return (input);
 }
 
-/*static int      get_color_indicator(double dcr, double dci, int i)
+static int      get_color_indicator(double dcr, double dci, int i)
 {
 	if (dcr > 0.0)
 		return (i % 64);
@@ -23,15 +23,13 @@ static double   clamp_to_pct4(double input, double min, double max)
 		return ((i % 64) + 64);
 	else
 		return ((i % 64) + 128);
-}*/
+}
 
 __kernel void iterate(
 		__global char *output,
 		int		frac_num,
 		double	x1,
 		double	y1,
-		double	x2,
-		double	y2,
 		int		i_max,
 		double	d_zoom_x,
 		double	d_zoom_y,
@@ -59,12 +57,13 @@ __kernel void iterate(
 	/*if (id < 1026)
 		printf ("x = %d | y = %d | id = %d\n", x, y, id);*/
 	//printf ("d_zoom_x = %f | d_zoom_y = %f | center_x = %d | center_y = %d | offset_x = %f | offset_y = %f | x1 = %f | y1 = %f | x2 = %f | y2 = %f\n\n", d_zoom_x, d_zoom_y, center_x, center_y, offset_x, offset_y, x1, y1, x2, y2);
+
 	if (frac_num == 0)
 	{
 		d.zoom_x = d_zoom_x;
 		d.zoom_y = d_zoom_y;
 		d.c_x = ((double)x - center_x) / d.zoom_x + x1 + offset_x;
-		d.c_y = ((double)center_y - y) / d.zoom_y + y1 + (offset_y);
+		d.c_y = ((double)center_y - y) / d.zoom_y + y1 + offset_y;
 		//if (id < 10)
 			//printf ("d.c_x = %f | d.c_y = %f\n", d.c_x, d.c_y);
 		d.z_x = 0;
@@ -84,13 +83,15 @@ __kernel void iterate(
 			ret.z = 0.0;
 		ret.color = 0;
 	}
+
+
 	if (frac_num == 1)
 	{
 		d.zoom_x = d_zoom_x;
 		d.zoom_y = d_zoom_y;
 		//printf ("mouse_x = %d | mouse_y = %d\n", mouse_x, mouse_y);
 		d.z_x = ((double)x - center_x) / d.zoom_x + x1 + offset_x;
-		d.z_y = ((double)center_y - y) / d.zoom_y + y1 + (offset_y);
+		d.z_y = ((double)center_y - y) / d.zoom_y + y1 + offset_y;
 		d.c_x = (double)mouse_x / 1000 - 1;
 		d.c_y = (double)mouse_y / 400 - 1;
 		ret.i = 0;
@@ -109,53 +110,29 @@ __kernel void iterate(
 		ret.color = 0;
 	}
 
-	/*else if (fractalft_num == 1)
+	if (frac_num == 2)
 	{
-		d.zoom_x = w_width;
-		d.zoom_y = w_height;
-		d.z_r = ((double)x) / d.zoom_x + X1 + offset_x;
-		d.z_i = ((double)y) / d.zoom_y + Y1 + (offset_y);
-		d.c_r = (double)mouse_x / 1000 - 1;
-		d.c_i = (double)mouse_y / 400 - 1;
+		d.zoom_x = d_zoom_x;
+		d.zoom_y = d_zoom_y;
+		d.c_x = ((double)x) / d.zoom_x + X1 + offset_x;
+		d.c_y = ((double)y) / d.zoom_y + Y1 + (offset_y);
 		ret.i = 0;
-		while (d.z_r * d.z_r + d.z_i * d.z_i < 4 && ret.i < itermax)
+		while (ret.i < i_max)
 		{
-			d.tmp = d.z_r;
-			d.z_r = d.z_r * d.z_r - d.z_i * d.z_i + d.c_r;
-			d.z_i = 2 * d.z_i * d.tmp + d.c_i;
-			ret.i++;
-		}
-		ret.z = d.z_r * d.z_r + d.z_i * d.z_i;
-		if (ret.z > 4.0)
-			ret.z = 4.0;
-		if (ret.z < 0.0)
-			ret.z = 0.0;
-		ret.color = 0;
-	}
-
-	else
-	{
-		d.zoom_x = w_width;
-		d.zoom_y = w_height;
-		d.c_r = ((double)x) / d.zoom_x + X1 + offset_x;
-		d.c_i = ((double)y) / d.zoom_y + Y1 + (offset_y);
-		ret.i = 0;
-		while (ret.i < itermax)
-		{
-			d.z_r = d.c_r * d.c_r;
-			d.z_i = d.c_i * d.c_i;
-			dd = 3.0 * ((d.z_r - d.z_i) * (d.z_r - d.z_i) + 4.0 * d.z_r * d.z_i);
+			d.z_x = d.c_x * d.c_x;
+			d.z_y = d.c_y * d.c_y;
+			dd = 3.0 * ((d.z_x - d.z_y) * (d.z_x - d.z_y) + 4.0 * d.z_x * d.z_y);
 			if (dd == 0.0)
 				dd = 0.000001;
-			d.tmp = d.c_r;
-			d.c_r = (2.0 / 3.0) * d.c_r + (d.z_r - d.z_i) / dd;
-			d.c_i = (2.0 / 3.0) * d.c_i - 2.0 * d.tmp * d.c_i / dd;
+			d.tmp = d.c_x;
+			d.c_x = (2.0 / 3.0) * d.c_x + (d.z_x - d.z_y) / dd;
+			d.c_y = (2.0 / 3.0) * d.c_y - 2.0 * d.tmp * d.c_y / dd;
 			ret.i++;
 		}
-		ret.color = get_color_indicator(d.c_r, d.c_i, ret.i);
-		ret.z = clamp_to_pct4(d.c_r, -5., 1.5);
+		ret.color = get_color_indicator(d.c_x, d.c_y, ret.i);
+		ret.z = clamp_to_pct4(d.c_x, -5., 1.5);
 	}
-	color = 0;
+	/*color = 0;
 	switch(colorft_num)
 	{
 		case 1:

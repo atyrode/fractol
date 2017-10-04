@@ -30,6 +30,8 @@
 # define RGB(r, g, b)(256 * 256 * (int)(r) + 256 * (int)(g) + (int)(b))
 # define OFFSETX_SHRINK(x) (double)(-1 * ((double)(x) / W_WIDTH) * (X2 - X1))
 # define OFFSETY_SHRINK(y) (double)(     ((double)(y) / W_HEIGHT) * (Y2 - Y1))
+# define OFFSETX_DELTA		OFFSETX_SHRINK(10)
+# define OFFSETY_DELTA		OFFSETY_SHRINK(10)
 #define W_WIDTH 896
 #define W_HEIGHT 800
 #define X1 mlx->mandelbrot->x1
@@ -53,6 +55,10 @@
 #define Z_DZ mlx->mandelbrot->z_dz
 #define BUTTON mlx->button
 #define KEYCODE mlx->keycode
+#define SHIFTX mlx->env->shiftx
+#define SHIFTY mlx->env->shifty
+#define X mlx->env->x
+#define Y mlx->env->y
 
 typedef struct			s_iter
 {
@@ -133,6 +139,10 @@ typedef struct			s_env
 	int		mouse_y;
 	int		mouse_changed;
 	int		mouse_stopped;
+	double	shiftx;
+	double	shifty;
+	int		x;
+	int		y;
 }						t_env;
 
 typedef struct			s_mlx {

@@ -26,17 +26,15 @@ static void	set_kernel_args(t_env *env, t_cl *cl, t_mandel *mandelbrot, t_mlx *m
 	err |= clSetKernelArg(cl->kernel, 1, sizeof(int), &mlx->frac);
 	err |= clSetKernelArg(cl->kernel, 2, sizeof(double), &mandelbrot->x1);
 	err |= clSetKernelArg(cl->kernel, 3, sizeof(double), &mandelbrot->y1);
-	err |= clSetKernelArg(cl->kernel, 4, sizeof(double), &mandelbrot->x2);
-	err |= clSetKernelArg(cl->kernel, 5, sizeof(double), &mandelbrot->y2);
-	err |= clSetKernelArg(cl->kernel, 6, sizeof(int), &mandelbrot->i_max);
-	err |= clSetKernelArg(cl->kernel, 7, sizeof(double), &env->d_zoom_x);
-	err |= clSetKernelArg(cl->kernel, 8, sizeof(double), &env->d_zoom_y);
-	err |= clSetKernelArg(cl->kernel, 9, sizeof(int), &env->center_x);
-	err |= clSetKernelArg(cl->kernel, 10, sizeof(int), &env->center_y);
-	err |= clSetKernelArg(cl->kernel, 11, sizeof(double), &env->offset_x);
-	err |= clSetKernelArg(cl->kernel, 12, sizeof(double), &env->offset_y);
-	err |= clSetKernelArg(cl->kernel, 13, sizeof(int), &env->mouse_x);
-	err |= clSetKernelArg(cl->kernel, 14, sizeof(int), &env->mouse_y);
+	err |= clSetKernelArg(cl->kernel, 4, sizeof(int), &mandelbrot->i_max);
+	err |= clSetKernelArg(cl->kernel, 5, sizeof(double), &env->d_zoom_x);
+	err |= clSetKernelArg(cl->kernel, 6, sizeof(double), &env->d_zoom_y);
+	err |= clSetKernelArg(cl->kernel, 7, sizeof(int), &env->center_x);
+	err |= clSetKernelArg(cl->kernel, 8, sizeof(int), &env->center_y);
+	err |= clSetKernelArg(cl->kernel, 9, sizeof(double), &env->offset_x);
+	err |= clSetKernelArg(cl->kernel, 10, sizeof(double), &env->offset_y);
+	err |= clSetKernelArg(cl->kernel, 11, sizeof(int), &env->mouse_x);
+	err |= clSetKernelArg(cl->kernel, 12, sizeof(int), &env->mouse_y);
 	if (err != CL_SUCCESS)
 		throw_kernel("Failed to set kernel arguments");
 }
