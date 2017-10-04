@@ -132,6 +132,7 @@ typedef struct			s_env
 	int		mouse_x;
 	int		mouse_y;
 	int		mouse_changed;
+	int		mouse_stopped;
 }						t_env;
 
 typedef struct			s_mlx {

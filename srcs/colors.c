@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef FROM_KERNEL
-# include "./../includes/fractol.h"
+#include "./../includes/fractol.h"
 #endif
 
 int			get_rvb2(int red, int green, int blue)

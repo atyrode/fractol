@@ -6,7 +6,7 @@
 #    By: atyrode <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/30 18:19:00 by atyrode           #+#    #+#              #
-#    Updated: 2017/10/03 18:49:18 by atyrode          ###   ########.fr        #
+#    Updated: 2017/10/04 09:15:23 by atyrode          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,10 +52,12 @@ make_libft:
 #$(NAME): makeautoheader $(O_FILES)
 $(NAME): $(O_FILES)
 	$(CC) $(CC_FLAGS) $(O_FILES) -o $(NAME) $(LIBFT_L) $(MLX_LIB) $(GPU_L)
+	make clean
 
 %.o:%.c fractol.h size.h
 	$(CC) $(CC_FLAGS) -c -o $@ $< $(LIBFT_I) $(MLX_I) \
 	$(GPU_MACRO) $(PRECISION) $(SPECIAL)
+	make clean
 
 clean: cleanp clean_libft
 

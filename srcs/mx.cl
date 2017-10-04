@@ -58,8 +58,7 @@ __kernel void iterate(
 	y = id / W_WIDTH;
 	/*if (id < 1026)
 		printf ("x = %d | y = %d | id = %d\n", x, y, id);*/
-	//printf ("d_zoom_x = %f | d_zoom_y = %f | center_x = %d | center_y = %d | offset_x = %f | offset_y = %f | x1 = %f | y1 = %f | x2 = %f | y2 = %f\n\n",
-	 //d_zoom_x, d_zoom_y, center_x, center_y, offset_x, offset_y, x1, y1, x2, y2);
+	//printf ("d_zoom_x = %f | d_zoom_y = %f | center_x = %d | center_y = %d | offset_x = %f | offset_y = %f | x1 = %f | y1 = %f | x2 = %f | y2 = %f\n\n", d_zoom_x, d_zoom_y, center_x, center_y, offset_x, offset_y, x1, y1, x2, y2);
 	if (frac_num == 0)
 	{
 		d.zoom_x = d_zoom_x;
@@ -90,10 +89,10 @@ __kernel void iterate(
 		d.zoom_x = d_zoom_x;
 		d.zoom_y = d_zoom_y;
 		//printf ("mouse_x = %d | mouse_y = %d\n", mouse_x, mouse_y);
+		d.z_x = ((double)x - center_x) / d.zoom_x + x1 + offset_x;
+		d.z_y = ((double)center_y - y) / d.zoom_y + y1 + (offset_y);
 		d.c_x = (double)mouse_x / 1000 - 1;
 		d.c_y = (double)mouse_y / 400 - 1;
-		d.z_x = ((double)x) / d.zoom_x + X1 + offset_x;
-		d.z_y = ((double)y) / d.zoom_y + Y1 + (offset_y);
 		ret.i = 0;
 		while ((d.z_x * d.z_x + d.z_y * d.z_y) < 4.0 && ret.i < i_max)
 		{

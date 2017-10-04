@@ -59,10 +59,10 @@ int			mouse_hook(int button, int x, int y, t_mlx *mlx)
 		mlx->env->zoom_x *= 1.1;
 		mlx->env->zoom_y *= 1.1;
 		mlx->mandelbrot->i_max_temp++;
-		if (mlx->mandelbrot->i_max_temp > 5)
+		if (mlx->mandelbrot->i_max_temp++ > 4)
 		{
-			mlx->mandelbrot->i_max += 1;
 			mlx->mandelbrot->i_max_temp = 0;
+			mlx->mandelbrot->i_max += 1;
 		}
 		redraw_fractal(mlx);
 		set_zoom_center(mlx, W_WIDTH / 2, W_HEIGHT / 2);
@@ -73,10 +73,10 @@ int			mouse_hook(int button, int x, int y, t_mlx *mlx)
 		set_zoom_center(mlx, x, y);
 		mlx->env->zoom_x /= 1.1;
 		mlx->env->zoom_y /= 1.1;
-		if (mlx->mandelbrot->i_max_temp > 5)
+		if (mlx->mandelbrot->i_max_temp++ > 4)
 		{
-			mlx->mandelbrot->i_max -= 1;
 			mlx->mandelbrot->i_max_temp = 0;
+			mlx->mandelbrot->i_max -= 1;
 		}
 		redraw_fractal(mlx);
 		set_zoom_center(mlx, W_WIDTH / 2, W_HEIGHT / 2);
@@ -86,10 +86,13 @@ int			mouse_hook(int button, int x, int y, t_mlx *mlx)
 
 int			mouse_mov(int x, int y, t_mlx *mlx)
 {
-	mlx->env->mouse_x = x;
-	mlx->env->mouse_y = y;
-	//printf("mouse_x = %d | mouse_y = %d\n", mlx->env->mouse_x, mlx->env->mouse_y);
-	redraw_fractal(mlx);
+	if (mlx->env->mouse_stopped == 0)
+	{
+		mlx->env->mouse_x = x;
+		mlx->env->mouse_y = y;
+		//printf("mouse_x = %d | mouse_y = %d\n", mlx->env->mouse_x, mlx->env->mouse_y);
+		redraw_fractal(mlx);
+	}
 	return (0);
 }
 
@@ -102,18 +105,14 @@ int			key_func(int keycode, t_mlx *mlx)
 		mlx_free(mlx);
 	if (KEYCODE == 49)
 		I_MAX += 15;
-	if (FRAC == 1 && (KEYCODE == 126 || KEYCODE == 125))
-	{
-		if (KEYCODE == 126)
-			C_X += 0.005;
-		else
-			C_Y += 0.01;
-	}
-	mlx_clear_window(mlx->mlx, mlx->win);
+	if (KEYCODE == 35)
+		mlx->env->mouse_stopped = (mlx->env->mouse_stopped == 1) ? 0 : 1;
+	if (KEYCODE == 15)
+	/*mlx_clear_window(mlx->mlx, mlx->win);
 	delete_image(mlx);
 	new_image(mlx);
-	calc_mandel(mlx);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->image->image, 0, 0);
+	calc_mandel(mlx);*/
+	redraw_fractal(mlx);
 	return (0);
 }
 
@@ -130,9 +129,12 @@ int			main(int argc, char **argv)
 	}
 	if ((mlx = initialize()) == NULL)
 		return (-1);
+	mlx->env->mouse_stopped = 0;
+	mlx->mandelbrot->i_max_temp = 0;
 	if ((ft_strcmp(argv[1], "J")) == 0)
 	{
 		FRAC = 1;
+		I_MAX = 100;
 		X1 = -2.1;
 		X2 = 0.6;
 		Y1 = -1.2;
@@ -164,7 +166,7 @@ int			main(int argc, char **argv)
 	draw_gpu_fractal(mlx, *mlx->env);
 	mlx_mouse_hook(mlx->win, mouse_hook, mlx);
 	mlx_hook(mlx->win, 6, 0, mouse_mov, mlx);
-	/*mlx_key_hook(mlx->win, key_func, mlx);*/
+	mlx_key_hook(mlx->win, key_func, mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->image->image, 0, 0);
 	mlx_loop(mlx->mlx);
 	return (0);
