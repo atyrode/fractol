@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:27:01 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 15:31:41 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 18:03:08 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ int			mouse_mov(int x, int y, t_mlx *mlx)
 	{
 		mlx->env->mouse_x = X;
 		mlx->env->mouse_y = Y;
+		# ifdef GPU
 		redraw_fractal(mlx);
+		#endif
 	}
 	return (0);
 }
@@ -76,7 +78,9 @@ int			key_func(int keycode, t_mlx *mlx)
 	if (KEYCODE == 18 || KEYCODE == 19 || KEYCODE == 20 || KEYCODE == 15)
 		init_frac_values(mlx);
 	if (KEYCODE == 36)
-		(mlx->env->col_n == 5) ? mlx->env->col_n = 1 : mlx->env->col_n++;
+		(mlx->env->col_n == 6) ? mlx->env->col_n = 1 : mlx->env->col_n++;
+	# ifdef GPU
 	redraw_fractal(mlx);
+	#endif
 	return (0);
 }

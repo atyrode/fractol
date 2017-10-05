@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   opencl_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:29:18 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 15:30:45 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 18:01:57 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
+
+# ifdef GPU
 
 static int	try_opencl_init_next(t_cl *cl)
 {
@@ -78,3 +80,5 @@ void		opencl_init(t_mlx *e)
 	printf("OpenCL init failed (%d)\n", err);
 	exit(1);
 }
+
+#endif

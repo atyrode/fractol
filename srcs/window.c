@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 19:23:07 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 15:30:42 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 19:47:14 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,15 @@ t_mlx		*mlx_free(t_mlx *mlx)
 		delete_image(mlx);
 	if (mlx->mandelbrot != NULL)
 		ft_memdel((void **)&mlx->mandelbrot);
+	# ifdef GPU
 	if (mlx->cl != NULL)
 		ft_memdel((void **)&mlx->cl);
+	#else
+	if (mlx->d != NULL)
+		ft_memdel((void **)&mlx->d);
+	if (mlx->r != NULL)
+		ft_memdel((void **)&mlx->r);
+	#endif
 	if (mlx->env != NULL)
 		ft_memdel((void **)&mlx->env);
 	ft_memdel((void **)&mlx);
@@ -39,9 +46,13 @@ t_mlx		*initialize(void)
 			"Fract'Ol")) == NULL
 		|| (mlx->image = new_image(mlx)) == NULL
 		|| (mlx->mandelbrot = ft_memalloc(sizeof(t_mandel))) == NULL
+		# ifdef GPU
 		|| (mlx->cl = ft_memalloc(sizeof(t_cl))) == NULL
+		# else
+		|| (mlx->d = ft_memalloc(sizeof(t_calc))) == NULL
+		|| (mlx->r = ft_memalloc(sizeof(t_iter))) == NULL
+		#endif
 		|| (mlx->env = ft_memalloc(sizeof(t_env))) == NULL)
 		return (mlx_free(mlx));
-	ZOOM = 0;
 	return (mlx);
 }

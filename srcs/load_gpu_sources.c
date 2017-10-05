@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   load_gpu_sources.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:31:24 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 15:31:29 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 18:01:26 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
+
+# ifdef GPU
 
 static char	*load_file(char *ret, int fd)
 {
@@ -61,3 +63,5 @@ char		*load_gpu_sources(void)
 	ret = try_load_file(GPU_SOURCE, ret);
 	return (ret);
 }
+
+#endif

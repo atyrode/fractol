@@ -6,7 +6,7 @@
 #    By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/30 18:19:00 by atyrode           #+#    #+#              #
-#    Updated: 2017/10/05 14:21:48 by atyrode          ###   ########.fr        #
+#    Updated: 2017/10/05 19:02:39 by atyrode          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 SRC =	srcs/fractol.c \
 		srcs/image.c \
-		srcs/mandelbrot.c \
+		srcs/newjuliabrot.c \
 		srcs/window.c \
 		srcs/draw_gpu_fractal.c \
 		srcs/load_gpu_sources.c \
@@ -55,10 +55,9 @@ $(NAME): $(O_FILES)
 	$(CC) $(CC_FLAGS) $(O_FILES) -o $(NAME) $(LIBFT_L) $(MLX_LIB) $(GPU_L)
 	make clean
 
-%.o:%.c fractol.h size.h
+%.o:%.c includes/fractol.h srcs/size.h
 	$(CC) $(CC_FLAGS) -c -o $@ $< $(LIBFT_I) $(MLX_I) \
 	$(GPU_MACRO) $(PRECISION) $(SPECIAL)
-	make clean
 
 clean: cleanp clean_libft
 

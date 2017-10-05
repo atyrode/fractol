@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   draw_gpu_fractal.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:28:33 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 15:31:52 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 17:49:48 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
+
+#ifdef GPU
 
 static void		throw_kernel(char *errmsg)
 {
@@ -80,8 +82,10 @@ void			redraw_fractal(t_mlx *mlx)
 	if (FRAC == 2)
 		mlx->env->col_n = 5;
 	else if (mlx->env->col_n == 5)
-		mlx->env->col_n = 1;
+		mlx->env->col_n = 6;
 	draw_gpu_fractal(mlx, *mlx->env);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->image->image, 0, 0);
 	mlx_do_sync(mlx->mlx);
 }
+
+#endif

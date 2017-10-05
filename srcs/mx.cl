@@ -152,7 +152,7 @@ __kernel void iterate(
 			color = color5(ret, i_max);
 			break ;
 		/*case 6:
-			color = color6(ret, itermax);
+			color = color6(ret, i_max);
 			break ;*/
 	}
 	/*if (frac_num == 2)

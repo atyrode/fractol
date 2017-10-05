@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:45:22 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 14:36:21 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 19:47:04 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,13 @@
 # include <fcntl.h>
 #include <string.h>
 
+# ifdef GPU
 #  include <OpenCL/opencl.h>
 #  define GPU_SOURCE "srcs/mx.cl"
-// #define GPU_SOURCE "mx.cl"
 #  define IS_GPU 1
+# else
+#  define IS_GPU 0
+# endif
 
 # include "./../srcs/size.h"
 
@@ -39,15 +42,14 @@
 #define Y1 mlx->mandelbrot->y1
 #define Y2 mlx->mandelbrot->y2
 #define I_MAX mlx->mandelbrot->i_max
-#define C_X mlx->mandelbrot->c_x
-#define C_Y mlx->mandelbrot->c_y
-#define Z_Y mlx->mandelbrot->z_y
-#define Z_X mlx->mandelbrot->z_x
+#define C_X mlx->d->c_x
+#define C_Y mlx->d->c_y
+#define Z_Y mlx->d->z_y
+#define Z_X mlx->d->z_x
 #define BPP mlx->image->bpp
 #define COORD_X mlx->mandelbrot->coord_x
 #define COORD_Y mlx->mandelbrot->coord_y
 #define COLOR mlx->mandelbrot->color
-#define ZOOM mlx->mandelbrot->zoom
 #define FRAC mlx->frac
 #define H mlx->mandelbrot->h
 #define SQZ_Y mlx->mandelbrot->sqz_y
@@ -59,22 +61,14 @@
 #define Y mlx->env->y
 #define OFFSETX mlx->env->offset_x
 #define OFFSETY mlx->env->offset_y
-
-typedef struct			s_iter
-{
-	int		i;
-	double	z;
-	int		color;
-}						t_iter;
-
-typedef struct			s_calc
-{
-	double	c_x;
-	double	c_y;
-	double	z_x;
-	double	z_y;
-	double	tmp;
-}						t_calc;
+#define ZOOM_X mlx->env->zoom_x
+#define ZOOM_Y mlx->env->zoom_y
+#define CENTER_X mlx->env->center_x
+#define CENTER_Y mlx->env->center_y
+#define I mlx->r->i
+#define TMP mlx->d->tmp
+#define MOUSE_X mlx->env->mouse_x
+#define MOUSE_Y mlx->env->mouse_y
 
 typedef struct			s_mandel {
 
@@ -82,17 +76,10 @@ typedef struct			s_mandel {
 	double		y1;
 	double		x2;
 	double		y2;
-	int			i_max_temp;
-	int			i_max;
-	double		zoom;
-	double		c_x;
-	double		c_y;
-	double		z_y;
-	double		sqz_y;
-	double		z_x;
-	double		sqz_x;
 	int			coord_x;
 	int			coord_y;
+	int			i_max_temp;
+	int			i_max;
 	int			color;
 
 }						t_mandel;
@@ -107,6 +94,8 @@ typedef struct			s_image {
 
 }						t_image;
 
+# ifdef GPU
+
 typedef struct			s_cl
 {
 	int					err;
@@ -119,6 +108,26 @@ typedef struct			s_cl
 	size_t				local;
 	size_t				global;
 }						t_cl;
+
+#endif
+
+typedef struct	s_iter
+{
+	int		i;
+	double	z;
+	int		color;
+}				t_iter;
+
+typedef struct	s_calc
+{
+	double	zoom_x;
+	double	zoom_y;
+	double	c_x;
+	double	c_y;
+	double	z_x;
+	double	z_y;
+	double	tmp;
+}				t_calc;
 
 typedef struct			s_env
 {
@@ -154,7 +163,12 @@ typedef struct			s_mlx {
 	int			init;
 	t_image		*image;
 	t_mandel	*mandelbrot;
+	# ifdef GPU
 	t_cl		*cl;
+	#else
+	t_calc		*d;
+	t_iter		*r;
+	#endif
 	t_env		*env;
 
 }						t_mlx;
@@ -180,6 +194,7 @@ int			color2(t_iter ret, int i_max);
 int			color3(t_iter ret, int i_max);
 int			color4(t_iter ret, int i_max);
 int			color5(t_iter ret, int i_max);
+int			color6(t_iter ret, int i_max);
 void		redraw_fractal(t_mlx *mlx);
 int 		loop_hook(t_mlx *mlx);
 int			mouse_hook(int button, int x, int y, t_mlx *mlx);
@@ -190,5 +205,6 @@ void		hooks(t_mlx *mlx);
 void		reset(t_mlx *mlx);
 void		set_zoom_center(t_mlx *mlx, int x, int y);
 void		de_zoom(t_mlx *mlx, int i, double j);
+void		fractals(t_mlx *mlx);
 
 #endif
