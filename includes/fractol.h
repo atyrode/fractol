@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:45:22 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 19:47:04 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 20:27:52 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,13 @@
 #define Y1 mlx->mandelbrot->y1
 #define Y2 mlx->mandelbrot->y2
 #define I_MAX mlx->mandelbrot->i_max
+#ifdef GPU
+#else
 #define C_X mlx->d->c_x
 #define C_Y mlx->d->c_y
 #define Z_Y mlx->d->z_y
 #define Z_X mlx->d->z_x
+#endif
 #define BPP mlx->image->bpp
 #define COORD_X mlx->mandelbrot->coord_x
 #define COORD_Y mlx->mandelbrot->coord_y
@@ -165,10 +168,9 @@ typedef struct			s_mlx {
 	t_mandel	*mandelbrot;
 	# ifdef GPU
 	t_cl		*cl;
-	#else
+	#endif
 	t_calc		*d;
 	t_iter		*r;
-	#endif
 	t_env		*env;
 
 }						t_mlx;

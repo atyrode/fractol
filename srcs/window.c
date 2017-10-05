@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 19:23:07 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 19:47:14 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 20:25:47 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,11 @@ t_mlx		*mlx_free(t_mlx *mlx)
 	# ifdef GPU
 	if (mlx->cl != NULL)
 		ft_memdel((void **)&mlx->cl);
-	#else
+	#endif
 	if (mlx->d != NULL)
 		ft_memdel((void **)&mlx->d);
 	if (mlx->r != NULL)
 		ft_memdel((void **)&mlx->r);
-	#endif
 	if (mlx->env != NULL)
 		ft_memdel((void **)&mlx->env);
 	ft_memdel((void **)&mlx);
@@ -48,10 +47,9 @@ t_mlx		*initialize(void)
 		|| (mlx->mandelbrot = ft_memalloc(sizeof(t_mandel))) == NULL
 		# ifdef GPU
 		|| (mlx->cl = ft_memalloc(sizeof(t_cl))) == NULL
-		# else
+		#endif
 		|| (mlx->d = ft_memalloc(sizeof(t_calc))) == NULL
 		|| (mlx->r = ft_memalloc(sizeof(t_iter))) == NULL
-		#endif
 		|| (mlx->env = ft_memalloc(sizeof(t_env))) == NULL)
 		return (mlx_free(mlx));
 	return (mlx);

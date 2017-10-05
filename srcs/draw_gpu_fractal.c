@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:28:33 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 17:49:48 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 20:36:07 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,15 +77,19 @@ void			draw_gpu_fractal(t_mlx *mlx, t_env env)
 		throw_kernel("Failed to read output array");
 }
 
+#endif
+
 void			redraw_fractal(t_mlx *mlx)
 {
 	if (FRAC == 2)
 		mlx->env->col_n = 5;
 	else if (mlx->env->col_n == 5)
 		mlx->env->col_n = 6;
+	#ifdef GPU
 	draw_gpu_fractal(mlx, *mlx->env);
+	#else
+	fractals(mlx);
+	#endif
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->image->image, 0, 0);
 	mlx_do_sync(mlx->mlx);
 }
-
-#endif

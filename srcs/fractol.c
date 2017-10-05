@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:41:51 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 19:43:24 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 20:35:31 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,7 @@ void	de_zoom(t_mlx *mlx, int i, double j)
 		mlx->mandelbrot->i_max_temp = 0;
 		mlx->mandelbrot->i_max += i;
 	}
-	# ifdef GPU
 	redraw_fractal(mlx);
-	#endif
 	set_zoom_center(mlx, W_WIDTH / 2, W_HEIGHT / 2);
 }
 
@@ -60,11 +58,7 @@ void	init_frac_values(t_mlx *mlx)
 	mlx->env->mouse_y = 398;
 	mlx->env->mouse_stopped = 0;
 	if (mlx->init == 1)
-	{
-		# ifdef GPU
 		redraw_fractal(mlx);
-		#endif
-	}
 }
 
 int		get_rvb(int red, int green, int blue)

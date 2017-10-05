@@ -6,11 +6,13 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:43:36 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 19:50:37 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 20:33:35 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
+
+#ifndef GPU
 
 void		mandelbrot(t_mlx *mlx)
 {
@@ -110,6 +112,8 @@ void		fractals(t_mlx *mlx)
 		}
 		COORD_X++;
 	}
-	printf ("COORD_X = %d | COORD_Y = %d\n", COORD_X, COORD_Y);
 	return ;
 }
+
+#else
+#endif
