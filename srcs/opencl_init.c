@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   opencl_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sguillia <sguillia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/16 20:11:24 by sguillia          #+#    #+#             */
-/*   Updated: 2017/10/03 21:03:01 by atyrode          ###   ########.fr       */
+/*   Created: 2017/10/05 15:29:18 by atyrode           #+#    #+#             */
+/*   Updated: 2017/10/05 15:30:45 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
-
 
 static int	try_opencl_init_next(t_cl *cl)
 {
@@ -19,7 +18,6 @@ static int	try_opencl_init_next(t_cl *cl)
 	size_t		len;
 
 	cl->err = clBuildProgram(cl->program, 0, NULL, "-I./srcs/", NULL, NULL);
-	//printf ("cl->err = %d", cl->err);
 	if (cl->err != CL_SUCCESS)
 	{
 		cl->err = clGetProgramBuildInfo(cl->program, cl->device_id,

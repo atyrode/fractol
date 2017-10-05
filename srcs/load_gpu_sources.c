@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_gpu_sources.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sguillia <sguillia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/16 20:57:04 by sguillia          #+#    #+#             */
-/*   Updated: 2016/02/19 22:31:13 by sguillia         ###   ########.fr       */
+/*   Created: 2017/10/05 15:31:24 by atyrode           #+#    #+#             */
+/*   Updated: 2017/10/05 15:31:29 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ static char	*try_load_file(char *filename, char *ret)
 
 	if ((fd = open(filename, O_RDONLY)) == -1)
 	{
-		printf ("fd = %d\n", fd);
-		perror(filename);
 		dprintf(2, "Failed to open GPU source : %s\n", filename);
 		exit(1);
 	}

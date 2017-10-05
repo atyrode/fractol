@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 19:23:07 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/03 19:58:25 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 15:30:42 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ t_mlx		*initialize(void)
 	if ((mlx = ft_memalloc(sizeof(t_mlx))) == NULL)
 		return (NULL);
 	if ((mlx->mlx = mlx_init()) == NULL
-		|| (mlx->win = mlx_new_window(mlx->mlx, W_WIDTH, W_HEIGHT, "Fract'Ol")) == NULL
+		|| (mlx->win = mlx_new_window(mlx->mlx, W_WIDTH, W_HEIGHT,
+			"Fract'Ol")) == NULL
 		|| (mlx->image = new_image(mlx)) == NULL
 		|| (mlx->mandelbrot = ft_memalloc(sizeof(t_mandel))) == NULL
 		|| (mlx->cl = ft_memalloc(sizeof(t_cl))) == NULL

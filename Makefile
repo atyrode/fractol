@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: atyrode <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/30 18:19:00 by atyrode           #+#    #+#              #
-#    Updated: 2017/10/04 09:15:23 by atyrode          ###   ########.fr        #
+#    Updated: 2017/10/05 14:21:48 by atyrode          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,14 +19,15 @@ CC = clang
 CFLAGS = -Wall -Wextra -Werror
 
 SRC =	srcs/fractol.c \
-		srcs/color.c \
 		srcs/image.c \
 		srcs/mandelbrot.c \
 		srcs/window.c \
 		srcs/draw_gpu_fractal.c \
 		srcs/load_gpu_sources.c \
 		srcs/opencl_init.c \
-		srcs/colors.c
+		srcs/colors.c \
+		srcs/main.c \
+		srcs/hook.c
 
 O_FILES = $(SRC:.c=.o)
 MLX_LIB = -L/usr/local/lib -lmlx -L. ./minilibx_macos/libmlx.a -framework OpenGL -framework Appkit

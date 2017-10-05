@@ -38,7 +38,8 @@ __kernel void iterate(
 		double	offset_x,
 		double	offset_y,
 		int		mouse_x,
-		int		mouse_y)
+		int		mouse_y,
+		int		col_n)
 {
 	int		id;
 	int		x;
@@ -114,8 +115,8 @@ __kernel void iterate(
 	{
 		d.zoom_x = d_zoom_x;
 		d.zoom_y = d_zoom_y;
-		d.c_x = ((double)x) / d.zoom_x + X1 + offset_x;
-		d.c_y = ((double)y) / d.zoom_y + Y1 + (offset_y);
+		d.c_x = ((double)x - center_x) / d.zoom_x + x1 + offset_x;
+		d.c_y = ((double)center_y - y) / d.zoom_y + y1 + offset_y;
 		ret.i = 0;
 		while (ret.i < i_max)
 		{
@@ -132,28 +133,31 @@ __kernel void iterate(
 		ret.color = get_color_indicator(d.c_x, d.c_y, ret.i);
 		ret.z = clamp_to_pct4(d.c_x, -5., 1.5);
 	}
-	/*color = 0;
-	switch(colorft_num)
+	color = 0;
+	switch(col_n)
 	{
 		case 1:
-			color = color1(ret, itermax);
+			color = color1(ret, i_max);
 			break ;
 		case 2:
-			color = color2(ret, itermax);
+			color = color2(ret, i_max);
 			break ;
 		case 3:
-			color = color3(ret, itermax);
+			color = color3(ret, i_max);
 			break ;
 		case 4:
-			color = color4(ret, itermax);
+			color = color4(ret, i_max);
 			break ;
 		case 5:
-			color = color5(ret, itermax);
+			color = color5(ret, i_max);
 			break ;
-		case 6:
+		/*case 6:
 			color = color6(ret, itermax);
-			break ;
-	}*/
-	color = color2(ret, i_max);
+			break ;*/
+	}
+	/*if (frac_num == 2)
+		color = color5(ret, i_max);
+	else
+		color = color2(ret, i_max);*/
 	((__global unsigned int*)output)[id] = color;
 }

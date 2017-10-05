@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   draw_gpu_fractal.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sguillia <sguillia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/06 21:08:11 by sguillia          #+#    #+#             */
-/*   Updated: 2016/02/19 22:31:03 by sguillia         ###   ########.fr       */
+/*   Created: 2017/10/05 15:28:33 by atyrode           #+#    #+#             */
+/*   Updated: 2017/10/05 15:31:52 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
 
-static void	throw_kernel(char *errmsg)
+static void		throw_kernel(char *errmsg)
 {
 	dprintf(2, "OpenCL: %s\n", errmsg);
 	exit(1);
 }
 
-static void	set_kernel_args(t_env *env, t_cl *cl, t_mandel *mandelbrot, t_mlx *mlx)
+static void		k_arg(t_env *env, t_cl *cl, t_mandel *mandelbrot, t_mlx *mlx)
 {
 	int		err;
 
@@ -35,11 +35,12 @@ static void	set_kernel_args(t_env *env, t_cl *cl, t_mandel *mandelbrot, t_mlx *m
 	err |= clSetKernelArg(cl->kernel, 10, sizeof(double), &env->offset_y);
 	err |= clSetKernelArg(cl->kernel, 11, sizeof(int), &env->mouse_x);
 	err |= clSetKernelArg(cl->kernel, 12, sizeof(int), &env->mouse_y);
+	err |= clSetKernelArg(cl->kernel, 13, sizeof(int), &env->col_n);
 	if (err != CL_SUCCESS)
 		throw_kernel("Failed to set kernel arguments");
 }
 
-static void	set_cl_global(t_mlx *mlx)
+static void		set_cl_global(t_mlx *mlx)
 {
 	mlx->cl->global = W_WIDTH * W_HEIGHT;
 	if (mlx->cl->global % mlx->cl->local)
@@ -51,18 +52,15 @@ static void	set_cl_global(t_mlx *mlx)
 	}
 }
 
-void		draw_gpu_fractal(t_mlx *mlx, t_env env)
+void			draw_gpu_fractal(t_mlx *mlx, t_env env)
 {
 	int		err;
 
-	//printf ("redrawn\n");
 	env.d_zoom_x = env.zoom_x * W_WIDTH / (X2 - X1);
 	env.d_zoom_y = env.zoom_y * W_HEIGHT / (Y2 - Y1);
-	//printf ("d_zoom_x = %f | d_zoom_y = %f | center_x = %d | center_y = %d | offset_x = %f | offset_y = %f | x1 = %f | x2 = %f | y1 = %f | y2 = %f\n",
-	//mlx->env->d_zoom_x, mlx->env->d_zoom_y, mlx->env->center_x, mlx->env->center_y, mlx->env->offset_x, mlx->env->offset_y, mlx->mandelbrot->x1, mlx->mandelbrot->x2, mlx->mandelbrot->y1, mlx->mandelbrot->y2);
-	set_kernel_args(&env, mlx->cl, mlx->mandelbrot, mlx);
+	k_arg(&env, mlx->cl, mlx->mandelbrot, mlx);
 	err = clGetKernelWorkGroupInfo(mlx->cl->kernel, mlx->cl->device_id,
-			CL_KERNEL_WORK_GROUP_SIZE, sizeof(mlx->cl->local), &mlx->cl->local, NULL);
+	CL_KERNEL_WORK_GROUP_SIZE, sizeof(mlx->cl->local), &mlx->cl->local, NULL);
 	if (err != CL_SUCCESS)
 		throw_kernel("Failed to retrieve kernel work group info");
 	set_cl_global(mlx);
@@ -77,8 +75,12 @@ void		draw_gpu_fractal(t_mlx *mlx, t_env env)
 		throw_kernel("Failed to read output array");
 }
 
-void	redraw_fractal(t_mlx *mlx)
+void			redraw_fractal(t_mlx *mlx)
 {
+	if (FRAC == 2)
+		mlx->env->col_n = 5;
+	else if (mlx->env->col_n == 5)
+		mlx->env->col_n = 1;
 	draw_gpu_fractal(mlx, *mlx->env);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->image->image, 0, 0);
 	mlx_do_sync(mlx->mlx);

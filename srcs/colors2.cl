@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   colors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sguillia <sguillia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/16 21:26:32 by sguillia          #+#    #+#             */
-/*   Updated: 2016/02/19 20:41:32 by sguillia         ###   ########.fr       */
+/*   Created: 2017/10/05 15:28:33 by atyrode           #+#    #+#             */
+/*   Updated: 2017/10/05 15:31:52 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FROM_KERNEL
-#include "./../includes/fractol.h"
+# include "./../includes/fractol.h"
 #endif
 
 /*static int	palette(float pct1)

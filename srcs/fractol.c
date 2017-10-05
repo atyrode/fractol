@@ -3,230 +3,70 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:41:51 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/03 22:25:28 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 15:46:38 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
 
-void reset(t_mlx *mlx)
-{
-	I_MAX = 100;
-	X1 = -2.1;
-	X2 = 0.6;
-	Y1 = -1.2;
-	Y2 = 1.2;
-	mlx->env->zoom_x = 1;
-	mlx->env->zoom_y = 1;
-	mlx->env->center_x = W_WIDTH / 2;
-	mlx->env->center_y = W_HEIGHT / 2;
-	mlx->env->offset_x = OFFSETX_SHRINK(-W_WIDTH / 2);
-	mlx->env->offset_y = OFFSETY_SHRINK(W_HEIGHT / 2);
-	mlx->env->mouse_x = 1000;
-	mlx->env->mouse_y = 398;
-	mlx->env->shiftx = (FRAC == 1 ) ? 0.7 : 0;
-	mlx->env->shifty = 0;
-	redraw_fractal(mlx);
-}
-
 void	set_zoom_center(t_mlx *mlx, int x, int y)
 {
-	mlx->env->offset_x += OFFSETX_SHRINK((mlx->env->center_x - x) / mlx->env->zoom_x);
-	mlx->env->offset_y += OFFSETY_SHRINK((mlx->env->center_y - y) / mlx->env->zoom_y);
+	OFFSETX += OFFSETX_SHRINK((mlx->env->center_x - x) / mlx->env->zoom_x);
+	OFFSETY += OFFSETY_SHRINK((mlx->env->center_y - y) / mlx->env->zoom_y);
 	mlx->env->center_x = x;
 	mlx->env->center_y = y;
 }
 
-int			ft_search(char *str, char *charset)
+void	de_zoom(t_mlx *mlx, int i, double j)
 {
-	int		i;
-
-	i = 0;
-	if (ft_strlen(str) != 1)
-		return (0);
-	while (charset[i] != '\0')
+	mlx->env->show_center = 0;
+	set_zoom_center(mlx, X, Y);
+	mlx->env->zoom_x *= j;
+	mlx->env->zoom_y *= j;
+	mlx->mandelbrot->i_max_temp++;
+	if (mlx->mandelbrot->i_max_temp++ > 5)
 	{
-		if (charset[i] == str[0])
-			return (1);
-		i++;
+		mlx->mandelbrot->i_max_temp = 0;
+		mlx->mandelbrot->i_max += i;
 	}
-	return (0);
-}
-
-int 		loop_hook(t_mlx *mlx)
-{
-	if (KEYCODE == 35)
-	{
-		mlx->env->show_center = 0;
-		set_zoom_center(mlx, X, Y);
-		mlx->env->zoom_x *= 1.05;
-		mlx->env->zoom_y *= 1.05;
-		mlx->mandelbrot->i_max_temp++;
-		if (mlx->mandelbrot->i_max_temp++ > 4)
-		{
-			mlx->mandelbrot->i_max_temp = 0;
-			mlx->mandelbrot->i_max += 1;
-		}
-		redraw_fractal(mlx);
-		set_zoom_center(mlx, W_WIDTH / 2, W_HEIGHT / 2);
-	}
-	if (KEYCODE == 31)
-	{
-		mlx->env->show_center = 0;
-		set_zoom_center(mlx, X, Y);
-		mlx->env->zoom_x /= 1.05;
-		mlx->env->zoom_y /= 1.05;
-		if (mlx->mandelbrot->i_max_temp++ > 4)
-		{
-			mlx->mandelbrot->i_max_temp = 0;
-			mlx->mandelbrot->i_max -= 1;
-		}
-		redraw_fractal(mlx);
-		set_zoom_center(mlx, W_WIDTH / 2, W_HEIGHT / 2);
-	}
-	return (0);
-}
-
-int			mouse_hook(int button, int x, int y, t_mlx *mlx)
-{
-	BUTTON = button;
-	if (mlx && x && y)
-	//	printf ("button = %d\n", BUTTON);
-	/*if (BUTTON == 1 || BUTTON == 2)
-	{
-		ZOOM = 1.59;
-		I_MAX += 20;
-		//printf ("ZOOM = %f | X = %d | Y = %d\n", ZOOM, x, y);
-		mlx_clear_window(mlx->mlx, mlx->win);
-		delete_image(mlx);
-		new_image(mlx);
-		re_calc_mandel(mlx, x, y);
-		mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->image->image, 0, 0);
-	}*/
-	if (button == 4 && x >= 0 && x < W_WIDTH && y >= 0 && y < W_HEIGHT)
-	{
-		mlx->env->show_center = 0;
-		set_zoom_center(mlx, x, y);
-		mlx->env->zoom_x *= 1.1;
-		mlx->env->zoom_y *= 1.1;
-		mlx->mandelbrot->i_max_temp++;
-		if (mlx->mandelbrot->i_max_temp++ > 4)
-		{
-			mlx->mandelbrot->i_max_temp = 0;
-			mlx->mandelbrot->i_max += 1;
-		}
-		redraw_fractal(mlx);
-		set_zoom_center(mlx, W_WIDTH / 2, W_HEIGHT / 2);
-	}
-	if (button == 5 && x >= 0 && x < W_WIDTH && y >= 0 && y < W_HEIGHT)
-	{
-		mlx->env->show_center = 0;
-		set_zoom_center(mlx, x, y);
-		mlx->env->zoom_x /= 1.1;
-		mlx->env->zoom_y /= 1.1;
-		if (mlx->mandelbrot->i_max_temp++ > 4)
-		{
-			mlx->mandelbrot->i_max_temp = 0;
-			mlx->mandelbrot->i_max -= 1;
-		}
-		redraw_fractal(mlx);
-		set_zoom_center(mlx, W_WIDTH / 2, W_HEIGHT / 2);
-	}
-	return (0);
-}
-
-int			mouse_mov(int x, int y, t_mlx *mlx)
-{
-	X = x;
-	Y = y;
-	if (mlx->env->mouse_stopped == 0)
-	{
-		mlx->env->mouse_x = X;
-		mlx->env->mouse_y = Y;
-		//printf("mouse_x = %d | mouse_y = %d\n", mlx->env->mouse_x, mlx->env->mouse_y);
-		redraw_fractal(mlx);
-	}
-	return (0);
-}
-
-int			key_func(int keycode, t_mlx *mlx)
-{
-	KEYCODE = keycode;
-
-	if (mlx)
-		printf("keycode = %d\n", keycode);
-	if (KEYCODE == 53)
-		mlx_free(mlx);
-	if (KEYCODE == 49)
-		I_MAX += 15;
-	if (KEYCODE == 35)
-		mlx->env->mouse_stopped = (mlx->env->mouse_stopped == 1) ? 0 : 1;
-	if (KEYCODE == 15)
-		reset(mlx);
-	if (KEYCODE == 14)
-		printf ("mouse_x = %d | mouse_y = %d | SHIFT_X = %f | SHIFT_Y = %f", mlx->env->mouse_x, mlx->env->mouse_y, SHIFTX, SHIFTY);
-	if (KEYCODE == 123)
-		mlx->env->offset_x += OFFSETX_DELTA / mlx->env->zoom_x / 0.5;
-	if (KEYCODE == 124)
-		mlx->env->offset_x -= OFFSETX_DELTA / mlx->env->zoom_x / 0.5;
-	if (KEYCODE == 125)
-		mlx->env->offset_y -= OFFSETY_DELTA / mlx->env->zoom_y / 0.5;
-	if (KEYCODE == 126)
-		mlx->env->offset_y += OFFSETY_DELTA / mlx->env->zoom_y / 0.5;
-	/*mlx_clear_window(mlx->mlx, mlx->win);
-	delete_image(mlx);
-	new_image(mlx);
-	calc_mandel(mlx);*/
 	redraw_fractal(mlx);
-	return (0);
+	set_zoom_center(mlx, W_WIDTH / 2, W_HEIGHT / 2);
 }
 
-int			main(int argc, char **argv)
+void	init_frac_values(t_mlx *mlx)
 {
-	char	*charset;
-	t_mlx	*mlx;
-
-	charset = "MJN";
-	if (argc != 2 || ft_search(argv[1], charset) == 0)
-	{
-		ft_putstr("Usage : ./fractol [fractal]\n[M]:Mandelbrot | [J]:Julia |");
-		return (0);
-	}
-	if ((mlx = initialize()) == NULL)
-		return (-1);
 	mlx->env->mouse_stopped = 0;
 	mlx->mandelbrot->i_max_temp = 0;
-	mlx->env->shiftx = 0;
-	mlx->env->shifty = 0;
 	I_MAX = 100;
 	X1 = -2.1;
 	X2 = 0.6;
 	Y1 = -1.2;
 	Y2 = 1.2;
-	mlx->env->shifty = 0.75;
 	mlx->env->zoom_x = 1;
 	mlx->env->zoom_y = 1;
 	mlx->env->center_x = W_WIDTH / 2;
 	mlx->env->center_y = W_HEIGHT / 2;
-	mlx->env->offset_x = OFFSETX_SHRINK(-W_WIDTH / 2);
+	mlx->env->offset_x = (FRAC == 1) ? 2.1 : OFFSETX_SHRINK(-W_WIDTH / 2);
 	mlx->env->offset_y = OFFSETY_SHRINK(W_HEIGHT / 2);
-	if ((ft_strcmp(argv[1], "J")) == 0)
-		FRAC = 1;
-	if ((ft_strcmp(argv[1], "M")) == 0)
-		FRAC = 0;
-	if ((ft_strcmp(argv[1], "N")) == 0)
-		FRAC = 2;
-	opencl_init(mlx);
-	//print_mandelbrot(mlx);
-	draw_gpu_fractal(mlx, *mlx->env);
-	mlx_mouse_hook(mlx->win, mouse_hook, mlx);
-	mlx_hook(mlx->win, 6, 0, mouse_mov, mlx);
-	mlx_key_hook(mlx->win, key_func, mlx);
-	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->image->image, 0, 0);
-	mlx_loop_hook(mlx->mlx, loop_hook, mlx);
-	mlx_loop(mlx->mlx);
-	return (0);
+	mlx->env->col_n = 1;
+	mlx->env->mouse_x = 1000;
+	mlx->env->mouse_y = 398;
+	mlx->env->mouse_stopped = 0;
+	if (mlx->init == 1)
+		redraw_fractal(mlx);
+}
+
+int		get_rvb(int red, int green, int blue)
+{
+	int r;
+	int g;
+	int b;
+
+	r = red & 0xFF;
+	g = green & 0xFF;
+	b = blue & 0xFF;
+	return (r << 16 | g << 8 | b);
 }

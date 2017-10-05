@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:45:22 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/03 17:39:39 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/05 14:36:21 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@
 #define Z_DZ mlx->mandelbrot->z_dz
 #define BUTTON mlx->button
 #define KEYCODE mlx->keycode
-#define SHIFTX mlx->env->shiftx
-#define SHIFTY mlx->env->shifty
 #define X mlx->env->x
 #define Y mlx->env->y
+#define OFFSETX mlx->env->offset_x
+#define OFFSETY mlx->env->offset_y
 
 typedef struct			s_iter
 {
@@ -139,10 +139,9 @@ typedef struct			s_env
 	int		mouse_y;
 	int		mouse_changed;
 	int		mouse_stopped;
-	double	shiftx;
-	double	shifty;
 	int		x;
 	int		y;
+	int		col_n;
 }						t_env;
 
 typedef struct			s_mlx {
@@ -152,6 +151,7 @@ typedef struct			s_mlx {
 	int			frac;
 	int			button;
 	int			keycode;
+	int			init;
 	t_image		*image;
 	t_mandel	*mandelbrot;
 	t_cl		*cl;
@@ -165,7 +165,6 @@ t_mlx		*initialize(void);
 void		*new_image(t_mlx *mlx);
 void		*delete_image(t_mlx *mlx);
 void		image_set_pixel(t_mlx *mlx);
-int			mouse_hook(int button, int x, int y, t_mlx *mlx);
 int			get_rvb(int red, int green, int blue);
 int			get_rvb2(int red, int green, int blue);
 void		calc_mandel(t_mlx *mlx);
@@ -178,6 +177,18 @@ char		*load_gpu_sources(void);
 void		draw_gpu_fractal(t_mlx *mlx, t_env env);
 int			color1(t_iter ret, int i_max);
 int			color2(t_iter ret, int i_max);
+int			color3(t_iter ret, int i_max);
+int			color4(t_iter ret, int i_max);
+int			color5(t_iter ret, int i_max);
 void		redraw_fractal(t_mlx *mlx);
+int 		loop_hook(t_mlx *mlx);
+int			mouse_hook(int button, int x, int y, t_mlx *mlx);
+int			mouse_mov(int x, int y, t_mlx *mlx);
+int			key_func(int keycode, t_mlx *mlx);
+void		init_frac_values(t_mlx *mlx);
+void		hooks(t_mlx *mlx);
+void		reset(t_mlx *mlx);
+void		set_zoom_center(t_mlx *mlx, int x, int y);
+void		de_zoom(t_mlx *mlx, int i, double j);
 
 #endif

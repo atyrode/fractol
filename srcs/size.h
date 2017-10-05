@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   size.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sguillia <sguillia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: atyrode <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/17 19:50:29 by sguillia          #+#    #+#             */
-/*   Updated: 2017/10/03 22:19:01 by atyrode          ###   ########.fr       */
+/*   Created: 2017/10/05 15:30:33 by atyrode           #+#    #+#             */
+/*   Updated: 2017/10/05 15:30:37 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SIZE_H
 # define SIZE_H
 
-#define W_WIDTH 896
-#define W_HEIGHT 800
+# define W_WIDTH 896
+# define W_HEIGHT 800
 
 #endif
