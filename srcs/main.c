@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:27:19 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/06 14:19:33 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 15:19:05 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_mlx		*init_mlx_f(char **argv, int argc)
 		FRAC = 0;
 	if ((ft_strcmp(argv[1], "N")) == 0)
 		FRAC = 2;
+	mlx->env->col_n = 1;
 	return (mlx);
 }
 
