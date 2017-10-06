@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:27:19 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/06 16:15:48 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 19:24:31 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ t_mlx		*init_mlx_f(char **argv, int argc)
 	if ((ft_strcmp(argv[1], "M")) == 0)
 		FRAC = 0;
 	if ((ft_strcmp(argv[1], "N")) == 0)
+	{
 		FRAC = 2;
+		mlx->env->col_n = 5;
+	}
 	mlx->env->col_n = 1;
 	return (mlx);
 }
@@ -82,6 +85,8 @@ int			main(int argc, char **argv)
 	mlx->init = 1;
 	hooks(mlx);
 	*(int *)mlx->image->ptr = 0xFFFFFF;
+	if (FRAC == 2)
+		redraw_fractal(mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->image->image, 0, 0);
 	mlx_loop(mlx->mlx);
 	return (0);
