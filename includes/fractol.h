@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:45:22 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/06 14:52:27 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 16:12:36 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,5 +211,6 @@ void		fractals(t_mlx *mlx);
 double   	clamp_to_pct4(double input, double min, double max);
 int      	get_color_indicator(double dcr, double dci, int i);
 int			color6_2(t_iter ret);
+void		init_gpu_cpu(t_mlx *mlx);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:43:36 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/06 14:52:41 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 16:19:17 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 
 void		mandelbrot(t_mlx *mlx)
 {
-	//printf ("ZOOM_X %f | ZOOM_Y %f", ZOOM_X, ZOOM_Y);
 	C_X = ((double)COORD_X - CENTER_X) / ZOOM_X + X1 + OFFSETX;
 	C_Y = ((double)CENTER_Y - COORD_Y) / ZOOM_Y + Y1 + OFFSETY;
 	Z_X = 0;
@@ -61,7 +60,7 @@ void		julia(t_mlx *mlx)
 
 void		newton(t_mlx *mlx)
 {
-	double 	dd;
+	double dd;
 
 	C_X = ((double)COORD_X - CENTER_X) / ZOOM_X + X1 + OFFSETX;
 	C_Y = ((double)CENTER_Y - COORD_Y) / ZOOM_Y + Y1 + OFFSETY;
@@ -85,27 +84,18 @@ void		newton(t_mlx *mlx)
 void		colors(t_mlx *mlx)
 {
 	COLOR = 0;
-	switch(mlx->env->col_n)
-	{
-		case 1:
-			COLOR = color1(*mlx->r, mlx->mandelbrot->i_max);
-			break ;
-		case 2:
-			COLOR = color2(*mlx->r, mlx->mandelbrot->i_max);
-			break ;
-		case 3:
-			COLOR = color3(*mlx->r, mlx->mandelbrot->i_max);
-			break ;
-		case 4:
-			COLOR = color4(*mlx->r, mlx->mandelbrot->i_max);
-			break ;
-		case 5:
-			COLOR = color5(*mlx->r, mlx->mandelbrot->i_max);
-			break ;
-		case 6:
-			COLOR = color6_2(*mlx->r);
-			break ;
-	}
+	if (mlx->env->col_n == 1)
+		COLOR = color1(*mlx->r, mlx->mandelbrot->i_max);
+	if (mlx->env->col_n == 2)
+		COLOR = color2(*mlx->r, mlx->mandelbrot->i_max);
+	if (mlx->env->col_n == 3)
+		COLOR = color3(*mlx->r, mlx->mandelbrot->i_max);
+	if (mlx->env->col_n == 4)
+		COLOR = color4(*mlx->r, mlx->mandelbrot->i_max);
+	if (mlx->env->col_n == 5)
+		COLOR = color5(*mlx->r, mlx->mandelbrot->i_max);
+	if (mlx->env->col_n == 6)
+		COLOR = color6_2(*mlx->r);
 }
 
 void		fractals(t_mlx *mlx)
@@ -122,19 +112,8 @@ void		fractals(t_mlx *mlx)
 				mandelbrot(mlx);
 			else
 				(FRAC == 1) ? julia(mlx) : newton(mlx);
-			/*if (I == I_MAX)
-			{
-				//printf ("black!\n");
-				COLOR = 0x000000;
-				image_set_pixel(mlx);
-			}
-			else
-			{
-				//printf ("color!\n");
-				COLOR = get_rvb(I * 255 / I_MAX, 0, 0);*/
-				colors(mlx);
-				image_set_pixel(mlx);
-			//}
+			colors(mlx);
+			image_set_pixel(mlx);
 			COORD_Y++;
 		}
 		COORD_X++;

@@ -6,13 +6,13 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:31:24 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 18:01:26 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 16:01:09 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
 
-# ifdef GPU
+#ifdef GPU
 
 static char	*load_file(char *ret, int fd)
 {

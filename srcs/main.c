@@ -6,11 +6,30 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:27:19 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/06 15:19:05 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 16:15:48 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
+
+#ifdef GPU
+
+void		init_gpu_cpu(t_mlx *mlx)
+{
+	opencl_init(mlx);
+	mlx->init = 0;
+	draw_gpu_fractal(mlx, *mlx->env);
+}
+
+#else
+
+void		init_gpu_cpu(t_mlx *mlx)
+{
+	mlx->init = 0;
+	fractals(mlx);
+}
+
+#endif
 
 int			ft_search(char *str, char *charset)
 {
@@ -36,7 +55,8 @@ t_mlx		*init_mlx_f(char **argv, int argc)
 	charset = "MJN";
 	if (argc != 2 || ft_search(argv[1], charset) == 0)
 	{
-		ft_putstr("Usage : ./fractol [fractal]\n[M]:Mandelbrot | [J]:Julia | [N]:Newton\n");
+		printf("Usage : ./fractol [fractal]\n");
+		printf("[M]:Mandelbrot | [J]:Julia | [N]:Newton\n");
 		return (0);
 	}
 	if ((mlx = initialize()) == NULL)
@@ -58,19 +78,11 @@ int			main(int argc, char **argv)
 	if ((mlx = init_mlx_f(argv, argc)) == NULL)
 		return (-1);
 	init_frac_values(mlx);
-	# ifdef GPU
-	opencl_init(mlx);
-	mlx->init = 0;
-	draw_gpu_fractal(mlx, *mlx->env);
-	#else
-	fractals(mlx);
-	#endif
+	init_gpu_cpu(mlx);
 	mlx->init = 1;
 	hooks(mlx);
-	//this effectively put a pixel
 	*(int *)mlx->image->ptr = 0xFFFFFF;
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->image->image, 0, 0);
-	printf ("entering mlx_loop\n");
 	mlx_loop(mlx->mlx);
 	return (0);
 }

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   colors2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/06 16:00:17 by atyrode           #+#    #+#             */
+/*   Updated: 2017/10/06 16:36:29 by atyrode          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./../includes/fractol.h"
 
-double   clamp_to_pct4(double input, double min, double max)
+double		clamp_to_pct4(double input, double min, double max)
 {
 	if (input < min)
 		input = min;
@@ -12,7 +24,7 @@ double   clamp_to_pct4(double input, double min, double max)
 	return (input);
 }
 
-int      get_color_indicator(double dcr, double dci, int i)
+int			get_color_indicator(double dcr, double dci, int i)
 {
 	if (dcr > 0.0)
 		return (i % 64);
@@ -22,11 +34,8 @@ int      get_color_indicator(double dcr, double dci, int i)
 		return ((i % 64) + 128);
 }
 
-static int	palette(float pct1)
+static int	palette(float pct1, int *p1, int *p2, int *p3)
 {
-	int	p1[] = {50, 0, 128};
-	int	p2[] = {255, 14, 117};
-	int	p3[] = {255, 255, 0};
 	float		pct2;
 
 	if (pct1 <= 0.5)
@@ -48,11 +57,31 @@ static int	palette(float pct1)
 	}
 }
 
+int			init_palette(float pct1)
+{
+	int			p1[3];
+	int			p2[3];
+	int			p3[3];
+	int			color;
+
+	p1[0] = 50;
+	p1[1] = 0;
+	p1[2] = 128;
+	p2[0] = 255;
+	p2[1] = 14;
+	p2[2] = 117;
+	p3[0] = 255;
+	p3[1] = 255;
+	p3[2] = 0;
+	color = palette(pct1, p1, p2, p3);
+	return (color);
+}
+
 int			color6_2(t_iter ret)
 {
 	double pct;
 
 	pct = ret.z / 4.;
 	pct = 1 - pct;
-	return (palette((float)pct));
+	return (init_palette((float)pct));
 }

@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:42:48 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/06 14:30:50 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 16:01:29 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	image_set_pixel(t_mlx *mlx)
 {
 	if (COORD_X < 0 || COORD_X >= W_WIDTH || COORD_Y < 0 || COORD_Y >= W_HEIGHT)
 		return ;
-	//printf ("ptr + (X(%d) + Y(%d) * W_WIDTH(%d)) * BPP(%d))) = COLOR(%x)\n", COORD_X, COORD_Y, W_WIDTH, BPP, COLOR);
 	*(int *)(mlx->image->ptr + ((COORD_X + COORD_Y * W_WIDTH) * BPP)) = COLOR;
 }
 

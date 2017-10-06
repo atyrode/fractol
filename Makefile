@@ -6,7 +6,7 @@
 #    By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/30 18:19:00 by atyrode           #+#    #+#              #
-#    Updated: 2017/10/06 14:52:13 by atyrode          ###   ########.fr        #
+#    Updated: 2017/10/06 16:11:24 by atyrode          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,8 @@ SRC =	srcs/fractol.c \
 		srcs/colors.c \
 		srcs/main.c \
 		srcs/hook.c \
-		srcs/colors2.c
+		srcs/colors2.c \
+		srcs/redraw_fractal.c
 
 O_FILES = $(SRC:.c=.o)
 MLX_LIB = -L/usr/local/lib -lmlx -L. ./minilibx_macos/libmlx.a -framework OpenGL -framework Appkit

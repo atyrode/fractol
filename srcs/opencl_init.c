@@ -6,13 +6,13 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:29:18 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 18:01:57 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 16:19:44 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../includes/fractol.h"
 
-# ifdef GPU
+#ifdef GPU
 
 static int	try_opencl_init_next(t_cl *cl)
 {
