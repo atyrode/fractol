@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:41:51 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/06 14:11:09 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 15:16:24 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	init_frac_values(t_mlx *mlx)
 	mlx->env->center_y = W_HEIGHT / 2;
 	mlx->env->offset_x = (FRAC == 1) ? 2.1 : OFFSETX_SHRINK(-W_WIDTH / 2);
 	mlx->env->offset_y = OFFSETY_SHRINK(W_HEIGHT / 2);
-	mlx->env->col_n = 1;
 	mlx->env->mouse_x = 1000;
 	mlx->env->mouse_y = 398;
 	mlx->env->mouse_stopped = 0;
