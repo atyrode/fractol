@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:27:19 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 19:57:22 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 14:19:33 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ int			main(int argc, char **argv)
 	#else
 	fractals(mlx);
 	#endif
+	mlx->init = 1;
 	hooks(mlx);
+	//this effectively put a pixel
+	*(int *)mlx->image->ptr = 0xFFFFFF;
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->image->image, 0, 0);
 	printf ("entering mlx_loop\n");
 	mlx_loop(mlx->mlx);

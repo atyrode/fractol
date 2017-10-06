@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:45:22 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 20:27:52 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 14:52:27 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@
 #define Y mlx->env->y
 #define OFFSETX mlx->env->offset_x
 #define OFFSETY mlx->env->offset_y
-#define ZOOM_X mlx->env->zoom_x
-#define ZOOM_Y mlx->env->zoom_y
+#define ZOOM_X mlx->env->d_zoom_x
+#define ZOOM_Y mlx->env->d_zoom_y
 #define CENTER_X mlx->env->center_x
 #define CENTER_Y mlx->env->center_y
 #define I mlx->r->i
@@ -206,7 +206,10 @@ void		init_frac_values(t_mlx *mlx);
 void		hooks(t_mlx *mlx);
 void		reset(t_mlx *mlx);
 void		set_zoom_center(t_mlx *mlx, int x, int y);
-void		de_zoom(t_mlx *mlx, int i, double j);
+void		de_zoom(t_mlx *mlx, 	int i, double j);
 void		fractals(t_mlx *mlx);
+double   	clamp_to_pct4(double input, double min, double max);
+int      	get_color_indicator(double dcr, double dci, int i);
+int			color6_2(t_iter ret);
 
 #endif

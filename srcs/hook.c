@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:27:01 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 20:35:12 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 14:28:48 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int			mouse_mov(int x, int y, t_mlx *mlx)
 	{
 		mlx->env->mouse_x = X;
 		mlx->env->mouse_y = Y;
-		redraw_fractal(mlx);
+		if (FRAC == 1)
+			redraw_fractal(mlx);
 	}
 	return (0);
 }

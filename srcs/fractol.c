@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:41:51 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 20:35:31 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 14:11:09 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	de_zoom(t_mlx *mlx, int i, double j)
 {
 	mlx->env->show_center = 0;
 	set_zoom_center(mlx, X, Y);
-	mlx->env->zoom_x *= j;
-	mlx->env->zoom_y *= j;
+	mlx->env->zoom_x = (i == 1) ?  mlx->env->zoom_x * j : mlx->env->zoom_x / j;
+	mlx->env->zoom_y = (i == 1) ? mlx->env->zoom_y * j : mlx->env->zoom_y / j;
 	mlx->mandelbrot->i_max_temp++;
 	if (mlx->mandelbrot->i_max_temp++ > 5)
 	{

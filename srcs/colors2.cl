@@ -14,7 +14,7 @@
 # include "./../includes/fractol.h"
 #endif
 
-/*static int	palette(float pct1)
+static int	palette(float pct1)
 {
 	int	p1[] = {50, 0, 128};
 	int	p2[] = {255, 14, 117};
@@ -47,4 +47,4 @@ int			color6(t_iter ret, int itermax)
 	pct = ret.z / 4.;
 	pct = 1 - pct;
 	return (palette((float)pct));
-}*/
+}

@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:28:33 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/05 20:36:07 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 14:29:58 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void			redraw_fractal(t_mlx *mlx)
 		mlx->env->col_n = 5;
 	else if (mlx->env->col_n == 5)
 		mlx->env->col_n = 6;
+
 	#ifdef GPU
 	draw_gpu_fractal(mlx, *mlx->env);
 	#else
