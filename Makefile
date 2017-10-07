@@ -6,14 +6,11 @@
 #    By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/09/30 18:19:00 by atyrode           #+#    #+#              #
-#    Updated: 2017/10/06 16:11:24 by atyrode          ###   ########.fr        #
+#    Updated: 2017/10/07 15:43:58 by atyrode          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
-
-PATH_OBJ = ./
-PATH_INC = ./includes/
 
 CC = clang
 CFLAGS = -Wall -Wextra -Werror
@@ -38,21 +35,13 @@ MLX_I   = -I/usr/local/include
 LIBFT_L = -Llibft -lft
 LIBFT_I = -Ilibft -Iincludes -Iminilibx_macos/mlx.h
 
-# Enables precision double output
-
-PRECISION = -DPRECISION
-
 SPECIAL =
 
 all: make_libft $(NAME)
 
-#makeautoheader:
-#	./genautoheader output.h $(SRC)
-
 make_libft:
 	make -C libft
 
-#$(NAME): makeautoheader $(O_FILES)
 $(NAME): $(O_FILES)
 	$(CC) $(CC_FLAGS) $(O_FILES) -o $(NAME) $(LIBFT_L) $(MLX_LIB) $(GPU_L)
 	make clean
@@ -81,13 +70,6 @@ re: fclean all
 
 rep: fcleanp all
 
-wre: wmode re
-
-wrep: wmode rep
-
-wmode:
-	$(eval CC_FLAGS = -Wall -Wextra -Werror)
-
 re_libft:
 	make -C libft re
 
@@ -108,9 +90,3 @@ set_gpu_flags:
 repgpu: fcleanp GPU
 
 repcpu: fcleanp CPU
-
-noprecision:
-	$(eval PRECISION =)
-
-special:
-	$(eval SPECIAL = -DUNDEFINED)
