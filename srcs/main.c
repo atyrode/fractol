@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:27:19 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/06 19:24:31 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 19:56:00 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int			main(int argc, char **argv)
 	init_gpu_cpu(mlx);
 	mlx->init = 1;
 	hooks(mlx);
-	*(int *)mlx->image->ptr = 0xFFFFFF;
 	if (FRAC == 2)
 		redraw_fractal(mlx);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->image->image, 0, 0);

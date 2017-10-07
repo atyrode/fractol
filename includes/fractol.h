@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/09/30 18:45:22 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/06 16:12:36 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 22:21:05 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@
 #define MOUSE_X mlx->env->mouse_x
 #define MOUSE_Y mlx->env->mouse_y
 
-typedef struct			s_mandel {
+typedef struct			s_mandel
+{
 
 	double		x1;
 	double		y1;
@@ -87,7 +88,8 @@ typedef struct			s_mandel {
 
 }						t_mandel;
 
-typedef struct			s_image {
+typedef struct			s_image
+{
 
 	void		*image;
 	char		*ptr;
@@ -100,6 +102,7 @@ typedef struct			s_image {
 # ifdef GPU
 
 typedef struct			s_cl
+
 {
 	int					err;
 	cl_device_id		device_id;

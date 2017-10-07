@@ -62,7 +62,7 @@ __kernel void iterate(
 	if (frac_num == 0)
 	{
 		d.zoom_x = d_zoom_x;
-		d.zoom_y = d_zoom_y;
+					d.zoom_y = d_zoom_y;
 		d.c_x = ((double)x - center_x) / d.zoom_x + x1 + offset_x;
 		d.c_y = ((double)center_y - y) / d.zoom_y + y1 + offset_y;
 		//if (id < 10)

@@ -6,7 +6,7 @@
 /*   By: atyrode <atyrode@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/05 15:28:33 by atyrode           #+#    #+#             */
-/*   Updated: 2017/10/06 18:59:00 by atyrode          ###   ########.fr       */
+/*   Updated: 2017/10/06 21:56:29 by atyrode          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void		throw_kernel(char *errmsg)
 static void		k_arg(t_env *env, t_cl *cl, t_mandel *mandelbrot, t_mlx *mlx)
 {
 	int		err;
+	int 	i = "salut";
 
 	err = clSetKernelArg(cl->kernel, 0, sizeof(cl_mem), &cl->output);
 	err |= clSetKernelArg(cl->kernel, 1, sizeof(int), &mlx->frac);
